@@ -31,4 +31,21 @@ if __name__ == '__main__':
     loss = loss_fn(y_train[:n], predictions).numpy()
     print(loss)
 
-    
+    #adam optimizer: short for "Adaptive Moment Estimation"
+    #specializes in minimizing the loss function
+    model.compile(optimizer='adam',
+                  loss=loss_fn,
+                  metrics=['accuracy'])  
+
+    '''this is where machine learning actually happens:
+        1. obtain data set (set of x_train, x_test, and y_train, y_test)
+        2. fit model to the set of (x_train, y_train)
+        3. evalulate to the actual values in dataset in (x_test, y_test)
+
+        in step 2, we run multiple epochs, or trials, to increase accuracy of training
+    '''
+    #epochs == trials
+    model.fit(x_train, y_train, epochs=5) 
+
+    #98% accuracy after 5 trials!
+    model.evaluate(x_test, y_test, verbose=2)
