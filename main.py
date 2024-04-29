@@ -8,8 +8,22 @@ if __name__ == '__main__':
 
     model = functions.create_model()
 
-    predictions = model(x_train[:1]).numpy()
-    print(predictions)
+    predictions = model(x_train[:5]).numpy()
+    print("predictions: ", predictions)
 
+    #turns the predictions into probabilities of occuring based on the predictions made
     probabilities = tf.nn.softmax(predictions).numpy()
-    print(probabilities)
+    print("probabilities: ",probabilities)
+    
+    #notice how the total of the probabilities is 1 (to ~5-6 decimal point accuracy)
+    total = 0
+    for i in range(5): #need 2 for loops [[probabilities[0]], probabilities[1], ... etc.]
+        for prob in probabilities[i]:
+            total += prob
+        print("total for probabilities[{}]: {}".format(i, total))
+        total = 0
+
+    #loss function: used to quantify the difference between predicted and real values
+    loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+
+    
